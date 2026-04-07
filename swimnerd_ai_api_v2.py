@@ -17,28 +17,45 @@ CORS(app)  # Enable CORS for local testing
 WIKI_PATH = Path(__file__).parent / "wiki"
 CLAUDE_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")  # Set in environment
 
-def search_wiki(query, max_results=3):
+def search_wiki(query, max_results=5):
     """
-    Simple keyword search across wiki markdown files.
+    Improved keyword search with better scoring and more content.
     Returns list of relevant file contents.
     """
     results = []
     query_lower = query.lower()
+    keywords = query_lower.split()
     
     # Search all .md files in wiki
     for md_file in WIKI_PATH.rglob("*.md"):
         try:
             with open(md_file, 'r', encoding='utf-8') as f:
                 content = f.read()
-                # Simple relevance: check if query keywords appear in content
-                if any(word in content.lower() for word in query_lower.split()):
+                content_lower = content.lower()
+                
+                # Calculate relevance score
+                score = 0
+                for word in keywords:
+                    score += content_lower.count(word)
+                
+                # Bonus for files matching topic (e.g., bob-bowman files for bowman questions)
+                file_path_lower = str(md_file).lower()
+                for word in keywords:
+                    if word in file_path_lower:
+                        score += 10  # Boost files with matching names
+                
+                if score > 0:
                     results.append({
                         'file': str(md_file.relative_to(WIKI_PATH)),
-                        'content': content[:2000]  # First 2000 chars for POC
+                        'content': content[:5000],  # Increased to 5000 chars
+                        'score': score
                     })
         except Exception as e:
             print(f"Error reading {md_file}: {e}")
             continue
+    
+    # Sort by score (best matches first)
+    results.sort(key=lambda x: x['score'], reverse=True)
     
     return results[:max_results]
 
