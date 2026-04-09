@@ -33,7 +33,12 @@ def fetch_wiki_from_github():
     print("Fetching wiki content from GitHub...")
     
     try:
-        response = requests.get(WIKI_DATA_URL, timeout=10)
+        # Add cache-busting headers to bypass GitHub CDN cache
+        headers = {
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'Pragma': 'no-cache'
+        }
+        response = requests.get(WIKI_DATA_URL, headers=headers, timeout=10)
         response.raise_for_status()
         
         articles = response.json()
