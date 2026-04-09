@@ -3,7 +3,7 @@ services:
     name: swimnerd-ai-api
     env: python
     buildCommand: pip install -r requirements-ai.txt
-    startCommand: gunicorn --bind 0.0.0.0:$PORT swimnerd_ai_api:app
+    startCommand: gunicorn --bind 0.0.0.0:$PORT swimnerd_ai_api_render:app
     envVars:
       - key: ANTHROPIC_API_KEY
         sync: false
