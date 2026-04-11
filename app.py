@@ -15,7 +15,7 @@ CORS(app)
 
 # Configuration
 ANTHROPIC_API_KEY = os.environ.get("ANTHROPIC_API_KEY", "")
-MODEL = "claude-3-5-sonnet-20241022"
+MODEL = "claude-sonnet-4-5-20250929"
 
 # Load wiki content from static JSON file
 WIKI_DATA = None
