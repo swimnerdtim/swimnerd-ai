@@ -109,8 +109,7 @@ def ask():
     
     if not search_results:
         return jsonify({
-            'answer': "I don't have enough information in my knowledge base to answer that question. The Swimnerd Wiki is still being built out. Try asking about Bob Bowman, Dave Salo, Cam McEvoy, or general swimming training methodology.",
-            'sources': []
+            'answer': "I don't have enough information in my knowledge base to answer that question. The Swimnerd Wiki is still being built out. Try asking about Bob Bowman, Dave Salo, Cam McEvoy, or general swimming training methodology."
         })
     
     # Build context from top results
@@ -124,7 +123,6 @@ def ask():
     if not ANTHROPIC_API_KEY:
         return jsonify({
             'answer': f"Based on the wiki content:\n\n{context[:1000]}",
-            'sources': [r['path'] for r in search_results],
             'note': 'API key not configured - showing raw context'
         })
     
@@ -150,15 +148,13 @@ ANSWER (be concise, specific, and cite details from the wiki):"""
         answer = message.content[0].text
         
         return jsonify({
-            'answer': answer,
-            'sources': [r['path'] for r in search_results]
+            'answer': answer
         })
         
     except Exception as e:
         print(f"Anthropic API error: {e}")
         return jsonify({
             'answer': f"I found relevant information but couldn't generate a full response. Here's what I found:\n\n{context[:500]}",
-            'sources': [r['path'] for r in search_results],
             'error': str(e)
         }), 500
 
