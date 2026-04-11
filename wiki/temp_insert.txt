@@ -1,6 +1,0 @@
-9. [Freestyle: Breathing Mechanics](technique/freestyle/breathing-mechanics.md)
-10. [**Streamlining & Body Position**](technique/streamlining-body-position.md) 🆕 ⭐
-11. [**Modern Breaststroke Technique**](technique/breaststroke/modern-breaststroke-technique.md) 🆕 ⭐
-
-### Training (1 — NEW from *Championship Swimming*)
-12. [**Interval Training Basics**](training/interval-training-basics.md) 🆕 ⭐
